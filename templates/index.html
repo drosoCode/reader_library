@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>EPUB Repository</title>
+    <meta charset="utf-8">
+</head>
+<body style="margin:0px;">
+    <table style="width:100%; border-collapse:collapse; font:16px Arial,sans-serif;text-align: center;table-layout: fixed;">
+        <tr>
+            <td colspan="3" style="padding:10px 20px; background-color:#acb3b9;">
+                <h1 style="font-size:24px;">EPUB Repository</h1>
+            </td>
+        </tr>
+        {% for i in books[0:9] %}
+            {% if loop.index == 1 or loop.index == 4 %}
+            <tr>
+            {% endif %}
+                <td>
+                    <a href="http://readerstore.sony.com/{{ i.link }}">
+                    <img src="http://readerstore.sony.com/image/{{ i.link }}" width="160px" height="230px">
+                    <table style="width:80%;margin-left:10%;text-align: center;">
+                        <tr>
+                            <td><b>{{ i.title }}</b></td>
+                        </tr>
+                        <tr>
+                            <td>{{ i.creator }}</td>
+                        </tr>
+                        <tr>
+                            <td>{{ i.date }}</td>
+                        </tr>
+                    </table>
+                    </a>
+                </td>
+            {% if loop.index == 3 or loop.index == 6 or loop.index == 9 %}
+            </tr>
+            {% endif %}
+        {% endfor %}
+    </table>
+        
+    <table style="width: 100%; position: fixed; bottom: 0; border-collapse:collapse; font:16px Arial,sans-serif;text-align: center;table-layout: fixed;">
+        <tr style="padding:5px; background-color:#acb3b9; text-align:center; ">
+            <td>
+                {% if page == 0 %}
+                    Previous
+                {% else %}
+                    <a href="?page={{ page - 1 }}">Previous</a>
+                {% endif %}
+            </td>
+            <td>
+                <p>{{ page }}/{{ max_page }}</p>
+            </td>
+            <td>
+                {% if page == max_page %}
+                    Next
+                {% else %}
+                    <a href="?page={{ page + 1 }}">Next</a>
+                {% endif %}
+            </td>
+        </tr>
+    </table>
+
+    <script>
+        document.body.addEventListener('keyup', function(event) { 
+            if (event.keyCode === 0) {
+                {% if page == max_page %}
+                    window.location.href="?page=0"
+                {% else %}
+                    window.location.href="?page={{ page + 1 }}"
+                {% endif %}
+            }
+         });
+    </script>
+</body>
+</html>

@@ -1,0 +1,13 @@
+version: "3.7"
+services:
+  readerstore:
+    build: .
+    restart: unless-stopped
+    volumes:
+      - /path/to/your/books:/data:ro
+    labels:
+      traefik.http.routers.reader.rule: Host(`readerstore.sony.com`)
+      traefik.http.routers.reader.entrypoints: http_lan
+      traefik.http.services.reader.loadbalancer.server.port: 8080
+      traefik.enable: true
+
