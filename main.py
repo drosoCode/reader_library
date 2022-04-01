@@ -119,10 +119,13 @@ def index(path=""):
 
     page = int(request.args["page"]) if "page" in request.args else 0
 
+    if len(path) > 5 and path[-5:] == ".epub":
+        path = path[0:-5]
+
     p = num_to_path(BASE, path)
 
     if p[-4:] == "epub":
-        return send_file(p, as_attachment=True, attachment_filename=os.path.basename(os.path.normpath(p)), mimetype="application/epub+zip")
+        return send_file(p, as_attachment=True, download_name=os.path.basename(os.path.normpath(p)), mimetype="application/epub+zip")
     else:
         lst = list_books(p, path)
         return render_template(

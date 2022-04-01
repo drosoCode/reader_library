@@ -16,7 +16,11 @@
             <tr>
             {% endif %}
                 <td>
+                    {% if i.creator == "Directory" %}
                     <a href="http://readerstore.sony.com/{{ i.link }}">
+                    {% else %}
+                    <a href="http://readerstore.sony.com/{{ i.link }}.epub">
+                    {% endif %}
                     <img src="http://readerstore.sony.com/image/{{ i.link }}" width="160px" height="230px">
                     <table style="width:80%;margin-left:10%;text-align: center;">
                         <tr>
