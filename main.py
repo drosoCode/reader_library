@@ -31,16 +31,21 @@ def get_epub_info(fname):
 
 def open_epub(fname):
     zip = zipfile.ZipFile(fname)
-    try:
+    paths = [
+        ("OEBPS/", "content.opf"),
+        ("OEBPS/", "package.opf"),
+        ("OEBPS/", "volume.opf"),
+        ("", "content.opf"),
+        ("Ops/", "content.opf"),
+    ]
+    for i in paths:
         try:
-            path = "OEBPS/"
-            tree = etree.fromstring(zip.read(path + "content.opf"))
+            tree = etree.fromstring(zip.read(i[0] + i[1]))
+            return (tree, i[0])
         except:
-            path = ""
-            tree = etree.fromstring(zip.read(path + "content.opf"))
-        return (tree, path)
-    except:
-        return (None, None)
+            pass
+
+    return (None, None)
 
 
 def get_image(bookPath):
