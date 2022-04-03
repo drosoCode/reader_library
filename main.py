@@ -4,6 +4,7 @@ from lxml import etree
 from flask import Flask, render_template, send_file, request, make_response
 import os
 import re
+from flask_caching import Cache
 
 XML_NAMESPACE = {
     "n": "urn:oasis:names:tc:opendocument:xmlns:container",
@@ -124,6 +125,15 @@ def num_to_path(base, p):
 
 
 app = Flask(__name__)
+app.config.from_mapping(
+    {
+        "DEBUG": False,
+        "CACHE_TYPE": "FileSystemCache",
+        "CACHE_DEFAULT_TIMEOUT": 86400,
+        "CACHE_DIR": "/tmp/cache",
+    }
+)
+cache = Cache(app)
 
 
 @app.route("/")
@@ -158,6 +168,7 @@ def index(path=""):
 
 
 @app.route("/image/<path:path>")
+@cache.cached()
 def image(path):
     p = num_to_path(BASE, path)
     d = os.path.isdir(p)
